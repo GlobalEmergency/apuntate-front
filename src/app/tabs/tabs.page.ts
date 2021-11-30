@@ -6,7 +6,7 @@ import {TranslateService} from '@ngx-translate/core';
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage {
+export class TabsPage{
 
 
 }
