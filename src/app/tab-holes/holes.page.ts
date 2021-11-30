@@ -16,7 +16,7 @@ export class HolesPage implements OnInit{
   calendar = {
     mode: 'week',
     currentDate: new Date(),
-
+    locale: 'en'
   };
   selectedDate: Date;
 
@@ -30,8 +30,17 @@ export class HolesPage implements OnInit{
     private modalCtrl: ModalController,
     public modalController: ModalController
   ) {
+    console.log(locale);
+    this.calendar.locale = locale;
+    // this.myCal.onRangeChanged = this.onRangeChanged();
   }
 
+  onRangeChanged(event){
+    console.log("Range changed",event);
+  }
+  onCurrentDateChanged(event){
+    console.log("onCurrentDateChanged",event);
+  }
   ngOnInit() {}
 
   async presentModal(event) {

@@ -14,7 +14,7 @@
   </ion-header>
 
 
-  <ion-card *ngFor="let alert in alerts">
+  <ion-card *ngFor="let alert of alerts">
     <ion-item>
       <ion-icon name="pin" slot="start"></ion-icon>
       <ion-label>{{ alert.title }}</ion-label>

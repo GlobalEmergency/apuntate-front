@@ -5,7 +5,7 @@ import {BehaviorSubject, from, Observable, of, Subject} from 'rxjs';
 
 import { Storage } from '@capacitor/storage';
 import {environment} from '../../environments/environment';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 
 const TOKEN_KEY = 'my-token';
@@ -30,7 +30,7 @@ export class AuthenticationService {
   }
 
   // Create new user
-  signUp(credentials: {username, password}): Observable<any> {
+  signUp(credentials: {username; password}): Observable<any> {
     return this.http.post(`${this.url}/users`, credentials);
   }
 
@@ -44,11 +44,11 @@ export class AuthenticationService {
     }
   }
 
-  login(credentials: {username, password}): Observable<any> {
+  login(credentials: {username; password}): Observable<any> {
     return this.http.post(`${this.url}/auth/login`, credentials).pipe(
       // map((data: any) => data.token),
-      switchMap((tokens: {token, refresh_token }) => {
-        console.log("Tokens news",tokens);
+      switchMap((tokens: {token; refresh_token }) => {
+        // console.log("Tokens news",tokens);
         this.currentAccessToken = tokens.token;
         const storeAccess = Storage.set({key: ACCESS_TOKEN_KEY, value: tokens.token});
         const storeRefresh = Storage.set({key: REFRESH_TOKEN_KEY, value: tokens.refresh_token});
@@ -57,7 +57,7 @@ export class AuthenticationService {
       tap(_ => {
         this.isAuthenticated.next(true);
       })
-    )
+    );
   }
 
 // Potentially perform a logout operation inside your API
@@ -83,9 +83,9 @@ export class AuthenticationService {
     const refreshToken = from(Storage.get({ key: REFRESH_TOKEN_KEY }));
     return refreshToken.pipe(
       switchMap(token => {
-        if (token && token.value && token.value != 'undefined') {
-          console.log("refresh",token);
-          return this.http.post(`${this.url}/auth/refresh`, {'refresh_token':token.value});
+        if (token && token.value && token.value !== 'undefined') {
+          console.log('refresh',token);
+          return this.http.post(`${this.url}/auth/refresh`, {refresh_token:token.value});
         } else {
           // No stored refresh token
           this.logout();

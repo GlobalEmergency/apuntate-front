@@ -13,7 +13,7 @@ const routes: Routes = [
       },
       {
         path: 'tab2',
-        loadChildren: () => import('../holes/holes.module').then(m => m.HolesPageModule)
+        loadChildren: () => import('../tab-holes/holes.module').then(m => m.HolesPageModule)
       },
       {
         path: 'tab3',
