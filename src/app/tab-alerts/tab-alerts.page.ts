@@ -1,6 +1,8 @@
-import { AuthenticationService } from './../services/authentication.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {Alert} from '../model/alert';
+import {ApiService} from '../services/api.service';
+
 
 @Component({
   selector: 'app-tab1',
@@ -8,11 +10,12 @@ import { Router } from '@angular/router';
   styleUrls: ['tab-alerts.page.scss']
 })
 export class TabAlertsPage {
+  alerts: Alert[] = [];
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
-
-  async logout() {
-    await this.authService.logout();
-    this.router.navigateByUrl('/', { replaceUrl: true });
+  constructor(private apiService: ApiService, private router: Router) {
+    this.apiService.getAlerts().subscribe(data => {
+      this.alerts.push(Alert.create(data));
+    });
   }
+
 }

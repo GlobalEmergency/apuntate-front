@@ -46,11 +46,12 @@ export class AuthenticationService {
 
   login(credentials: {username, password}): Observable<any> {
     return this.http.post(`${this.url}/auth/login`, credentials).pipe(
-      map((data: any) => data.token),
-      switchMap((tokens: {accessToken, refreshToken }) => {
-        this.currentAccessToken = tokens.accessToken;
-        const storeAccess = Storage.set({key: ACCESS_TOKEN_KEY, value: tokens.accessToken});
-        const storeRefresh = Storage.set({key: REFRESH_TOKEN_KEY, value: tokens.refreshToken});
+      // map((data: any) => data.token),
+      switchMap((tokens: {token, refresh_token }) => {
+        console.log("Tokens news",tokens);
+        this.currentAccessToken = tokens.token;
+        const storeAccess = Storage.set({key: ACCESS_TOKEN_KEY, value: tokens.token});
+        const storeRefresh = Storage.set({key: REFRESH_TOKEN_KEY, value: tokens.refresh_token});
         return from(Promise.all([storeAccess, storeRefresh]));
       }),
       tap(_ => {
@@ -82,16 +83,12 @@ export class AuthenticationService {
     const refreshToken = from(Storage.get({ key: REFRESH_TOKEN_KEY }));
     return refreshToken.pipe(
       switchMap(token => {
-        if (token && token.value) {
-          const httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token.value}`
-            })
-          }
-          return this.http.get(`${this.url}/auth/refresh`, httpOptions);
+        if (token && token.value && token.value != 'undefined') {
+          console.log("refresh",token);
+          return this.http.post(`${this.url}/auth/refresh`, {'refresh_token':token.value});
         } else {
           // No stored refresh token
+          this.logout();
           return of(null);
         }
       })

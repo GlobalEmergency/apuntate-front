@@ -16,4 +16,8 @@ export class ApiService {
   getSecretData() {
     return this.http.get(`${this.url}/profile`);
   }
+
+  getAlerts(){
+    return this.http.get(`${this.url}/profile/alerts`);
+  }
 }

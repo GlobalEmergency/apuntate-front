@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      {{ "Alerts" | translate }}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,11 +9,22 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">{{ "Alerts" | translate }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-button expand="full" (click)="logout()">Logout</ion-button>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-card *ngFor="let alert in alerts">
+    <ion-item>
+      <ion-icon name="pin" slot="start"></ion-icon>
+      <ion-label>{{ alert.title }}</ion-label>
+      <ion-button fill="outline" slot="end" *ngIf="alert.expandable === true">View</ion-button>
+    </ion-item>
+
+    <ion-card-content>
+      {{ alert.resume }}
+    </ion-card-content>
+  </ion-card>
+
+
 </ion-content>

@@ -6,6 +6,7 @@ import { TabAlertsPage } from './tab-alerts.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { TabAlertsPageRoutingModule } from './tab-alerts-routing.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { TabAlertsPageRoutingModule } from './tab-alerts-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    TabAlertsPageRoutingModule
+    TabAlertsPageRoutingModule,
+    TranslateModule,
   ],
   declarations: [TabAlertsPage]
 })

@@ -24,7 +24,7 @@ export class JwtInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // Check if we need additional token logic or not
-    if (this.isInBlockedList(request.url)) {
+    if (!this.isInBlockedList(request.url)) {
       return next.handle(request);
     } else {
       return next.handle(this.addToken(request)).pipe(
@@ -47,13 +47,14 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   // Filter out URLs where you don't want to add the token!
-  private isInBlockedList(url: string): Boolean {
+  private isInBlockedList(url: string): boolean {
     // Example: Filter out our login and logout API call
-    if (
-      url === `${environment.api_url}/login_check` ||
-      url === `${environment.api_url}/token/refresh` ||
-      url === `${environment.api_url}/auth` ||
-      url === `${environment.api_url}/auth/logout`
+    if (url.startsWith(environment.api_url) && !url.startsWith(environment.api_url+'/auth')
+      // url.match("/^${environment.api_url}(.*)/gm") && !url.match("/^${environment.api_url}\\/auth(.*)/gm")
+      // url === `${environment.api_url}/auth/login` ||
+      // url === `${environment.api_url}/auth/refresh` ||
+      // url === `${environment.api_url}/auth` ||
+      // url === `${environment.api_url}/auth/logout`
     ) {
       return true;
     } else {
@@ -63,6 +64,8 @@ export class JwtInterceptor implements HttpInterceptor {
 
   // Add our current access token from the service if present
   private addToken(req: HttpRequest<any>) {
+    // debugger;
+    console.log("Token",this.authenticationService.currentAccessToken);
     if (this.authenticationService.currentAccessToken) {
       return req.clone({
         headers: new HttpHeaders({
@@ -84,7 +87,7 @@ export class JwtInterceptor implements HttpInterceptor {
       duration: 2000
     });
     toast.present();
-    this.authenticationService.logout();
+    // this.authenticationService.logout();
     return of(null);
   }
 
