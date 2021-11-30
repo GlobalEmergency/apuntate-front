@@ -1,0 +1,6 @@
+{
+  "HELLO": "hello {{value}}",
+  "profile": "My profile",
+  "holes": "Holes",
+  "alerts": "Alerts"
+}
