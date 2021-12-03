@@ -25,15 +25,6 @@ export class AuthenticationService {
     this.loadToken();
   }
 
-  getSecretData() {
-    return this.http.get(`${this.url}/users/secret`);
-  }
-
-  // Create new user
-  signUp(credentials: {username; password}): Observable<any> {
-    return this.http.post(`${this.url}/users`, credentials);
-  }
-
   async loadToken() {
     const token = await Storage.get({ key: ACCESS_TOKEN_KEY });
     if (token && token.value) {
@@ -48,11 +39,7 @@ export class AuthenticationService {
     return this.http.post(`${this.url}/auth/login`, credentials).pipe(
       // map((data: any) => data.token),
       switchMap((tokens: {token; refresh_token }) => {
-        // console.log("Tokens news",tokens);
-        this.currentAccessToken = tokens.token;
-        const storeAccess = Storage.set({key: ACCESS_TOKEN_KEY, value: tokens.token});
-        const storeRefresh = Storage.set({key: REFRESH_TOKEN_KEY, value: tokens.refresh_token});
-        return from(Promise.all([storeAccess, storeRefresh]));
+        return this.storeAccessToken(tokens.token,tokens.refresh_token)
       }),
       tap(_ => {
         this.isAuthenticated.next(true);
@@ -96,9 +83,12 @@ export class AuthenticationService {
   }
 
   // Store a new access token
-  storeAccessToken(accessToken) {
+  storeAccessToken(accessToken, refreshToken) {
     this.currentAccessToken = accessToken;
-    return from(Storage.set({ key: ACCESS_TOKEN_KEY, value: accessToken }));
+    Storage.set({ key: ACCESS_TOKEN_KEY, value: accessToken });
+    Storage.set({ key: REFRESH_TOKEN_KEY, value: refreshToken });
+    return from(Promise.all([accessToken, refreshToken]));
   }
+
 
 }

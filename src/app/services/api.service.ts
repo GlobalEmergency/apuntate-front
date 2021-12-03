@@ -29,4 +29,13 @@ export class ApiService {
         data.forEach(element => this.alerts.push(Alert.create(element)));
       });*/
   }
+  getHoles(startTime: Date,endTime: Date){
+    let start = startTime.getUTCDate() + "-" + (startTime.getUTCMonth()+1) + "-" + startTime.getUTCFullYear();
+    let end = endTime.getUTCDate() + "-" + (endTime.getUTCMonth()+1) + "-" + endTime.getUTCFullYear();
+    return this.http.get(`${this.url}/services/calendar?s=`+start+"&e="+end);
+  }
+
+  getServiceDetails(serviceId){
+    return this.http.get(`${this.url}/services/`+serviceId);
+  }
 }

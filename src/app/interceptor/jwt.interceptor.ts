@@ -87,7 +87,7 @@ export class JwtInterceptor implements HttpInterceptor {
       duration: 2000
     });
     toast.present();
-    // this.authenticationService.logout();
+    this.authenticationService.logout();
     return of(null);
   }
 
@@ -104,14 +104,13 @@ export class JwtInterceptor implements HttpInterceptor {
 
       // First, get a new access token
       return this.authenticationService.getNewAccessToken().pipe(
-        switchMap((token: any) => {
-          if (token) {
+        switchMap((tokens: any) => {
+          if (tokens) {
             // Store the new token
-            const accessToken = token.accessToken;
-            return this.authenticationService.storeAccessToken(accessToken).pipe(
+            return this.authenticationService.storeAccessToken(tokens.token,tokens.refresh_token).pipe(
               switchMap(_ => {
                 // Use the subject so other calls can continue with the new token
-                this.tokenSubject.next(accessToken);
+                this.tokenSubject.next(tokens.token);
 
                 // Perform the initial request again with the new token
                 return next.handle(this.addToken(request));
