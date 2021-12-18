@@ -1,0 +1,10 @@
+ion-grid{
+  display: flex;
+  flex-wrap: wrap;
+  ion-item{
+    flex: 1 50%;
+  }
+}
+.description{
+  padding: 15px;
+}

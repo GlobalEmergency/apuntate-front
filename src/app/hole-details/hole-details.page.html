@@ -1,20 +1,23 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Modal Content</ion-title>
+    <ion-title>{{ service.name }}</ion-title>
     <ion-buttons slot="end">
       <ion-button onclick="dismiss()">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen>
-  <ion-list>
-    <ion-item *ngFor="let gap for service.gaps">
+  <div class="description" [innerHTML]="service.description"></div>
+  <ion-grid>
+    <ion-item *ngFor="let gap of service.gaps">
       <ion-avatar slot="start">
         <ion-img src="./avatar-gollum.jpg"></ion-img>
       </ion-avatar>
       <ion-label>
-        <h2>{{ gap.id }}</h2>
-        <p>{{ gap.unit }}</p>
+        <h2>{{ gap.unitComponent.component.name }}</h2>
+        <span>{{ gap.unitComponent.unit.name }}</span>
+        <ion-badge *ngFor="let requirement of gap.unitComponent.component.requirements" (click)="test();">{{requirement.name}}</ion-badge>
+        <div *ngIf="gap.user">{{gap.user.name}}</div>
       </ion-label>
     </ion-item>
 
@@ -36,5 +39,5 @@
 <!--        <p>What we need is a few good taters.</p>-->
 <!--      </ion-label>-->
 <!--    </ion-item>-->
-  </ion-list>
+  </ion-grid>
 </ion-content>

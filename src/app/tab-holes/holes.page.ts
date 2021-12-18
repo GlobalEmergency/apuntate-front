@@ -55,26 +55,14 @@ export class HolesPage implements OnInit {
   }
 
   async presentModal(service) {
-    console.log("present modal",service);
+    // console.log('present modal',service);
     const modal = await this.modalController.create({
       component: HoleDetailsPage,
-      cssClass: 'my-custom-class',
-      componentProps: {'service':service}
+      cssClass: 'hole-details',
+      componentProps: {'serviceCalendar':service}
     });
     this.currentModal = modal;
     return await modal.present();
-  }
-
-  dismiss() {
-    console.log("DISMISS");
-  }
-
-  dismissModal() {
-    if (this.currentModal) {
-      this.currentModal.dismiss().then(() => {
-        this.currentModal = null;
-      });
-    }
   }
 
 
