@@ -61,8 +61,8 @@
     (onRangeChanged)="onRangeChanged($event)"
     [locale]="calendar.locale"
     queryMode="remote"
-    step="30"
-    startingDayWeek="1"
+    [step]=calendar.step
+    [startingDayWeek]= calendar.startingDayWeek
     formatHourColumn="H"
   >
   </calendar>

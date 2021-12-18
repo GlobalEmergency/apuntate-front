@@ -10,7 +10,7 @@ import {ApiService} from '../services/api.service';
 
 export class HoleDetailsPage implements OnInit{
 
-  private service: Service;
+  public service: Service;
   // Data passed in by componentProps
   @Input('serviceCalendar') serviceCalendar: any;
 

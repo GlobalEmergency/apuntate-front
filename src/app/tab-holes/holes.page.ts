@@ -1,9 +1,10 @@
 import {Component, ViewChild, OnInit, Inject, LOCALE_ID} from '@angular/core';
 import {AlertController, ModalController} from '@ionic/angular';
 import {formatDate} from '@angular/common';
-import {CalendarComponent} from 'ionic2-calendar';
+import {CalendarComponent } from 'ionic2-calendar';
 import {HoleDetailsPage} from '../hole-details/hole-details.page';
-import {ApiService} from "../services/api.service";
+import {ApiService} from '../services/api.service';
+import { CalendarMode } from 'ionic2-calendar/calendar';
 
 @Component({
   selector: 'app-tab2',
@@ -15,9 +16,11 @@ export class HolesPage implements OnInit {
   viewTitle: string;
 
   calendar = {
-    mode: 'week',
+    mode: 'week' as CalendarMode,
     currentDate: new Date(),
-    locale: 'en'
+    locale: 'es',
+    step: 30 as number,
+    startingDayWeek: 1 as number,
   };
   selectedDate: Date;
 

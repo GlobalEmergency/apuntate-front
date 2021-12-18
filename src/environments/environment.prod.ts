@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  api_url: 'https://apuntate.globalemergency.online/index.php/api'
 };
