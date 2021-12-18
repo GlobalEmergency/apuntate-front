@@ -65,7 +65,7 @@ export class JwtInterceptor implements HttpInterceptor {
   // Add our current access token from the service if present
   private addToken(req: HttpRequest<any>) {
     // debugger;
-    console.log("Token",this.authenticationService.currentAccessToken);
+    // console.log("Token",this.authenticationService.currentAccessToken);
     if (this.authenticationService.currentAccessToken) {
       return req.clone({
         headers: new HttpHeaders({

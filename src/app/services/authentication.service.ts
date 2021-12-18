@@ -71,7 +71,7 @@ export class AuthenticationService {
     return refreshToken.pipe(
       switchMap(token => {
         if (token && token.value && token.value !== 'undefined') {
-          console.log('refresh',token);
+          // console.log('refresh',token);
           return this.http.post(`${this.url}/auth/refresh`, {refresh_token:token.value});
         } else {
           // No stored refresh token
