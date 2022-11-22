@@ -8,27 +8,27 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'alerts',
         loadChildren: () => import('../tab-alerts/tab-alerts.module').then(m => m.TabAlertsPageModule)
       },
       {
-        path: 'tab2',
+        path: 'holes',
         loadChildren: () => import('../tab-holes/holes.module').then(m => m.HolesPageModule)
       },
       {
-        path: 'tab3',
+        path: 'profile',
         loadChildren: () => import('../tab-profile/tab-profile.module').then(m => m.TabProfilePageModule)
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/app/alerts',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/app/alerts',
     pathMatch: 'full'
   }
 ];

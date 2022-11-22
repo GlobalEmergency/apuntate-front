@@ -1,12 +1,22 @@
 ion-content {
-  --padding-top: 40%;
+  --padding-top: 10%;
   --padding-start: 10%;
   --padding-end: 10%;
-  --background: url('https://images.unsplash.com/photo-1536431311719-398b6704d4cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80') 0 0/100% 100% no-repeat;
+  // --background: url('https://imagenes.diariodenavarra.es/uploads/2014/07/20/60b1bfd6b26f1.jpeg') no-repeat center center fixed;
+  --background: url('https://medios.uchceu.es/actualidad-ceu/wp-content/uploads/sites/2/2016/05/simulacroamv-coordinacion-enfermeria1.jpg') no-repeat center center;
+  background-position: center top;
+  background-repeat: no-repeat;
+ background-size: cover;
+
+}
+
+ion-item{
+  margin-bottom: 1rem;
+  border-radius: 10px;
 }
 
 .input-group {
-  background: #fff;
+  // background: #fff;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 15px;
@@ -19,4 +29,9 @@ ion-content {
   padding-left: 15px;
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+#background-content{
+  background-size: cover !important;
+  background-repeat: no-repeat;
 }

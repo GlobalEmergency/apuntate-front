@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Devdactic App</ion-title>
+    <ion-title>Apúntate Voluntarios App</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,13 +8,22 @@
 
   <form (ngSubmit)="login()" [formGroup]="credentials">
     <div class="input-group">
+
+      <!-- <ion-item>
+        <ion-select formControlName="organization" placeholder="Organización">
+          <ion-select-option value="test1">Test 1</ion-select-option>
+          <ion-select-option value="test2">Test 2</ion-select-option>
+        </ion-select>
+      </ion-item> -->
+
       <ion-item>
         <ion-input type="email" placeholder="Email" formControlName="username"></ion-input>
       </ion-item>
-      <div *ngIf="(username.dirty || username.touched) && username.errors" class="errors">
-        <span *ngIf="username.errors?.required">Email is required</span>
-        <span *ngIf="username.errors?.email">Email is invalid</span>
-      </div>
+        <div *ngIf="(username.dirty || username.touched) && username.errors" class="errors">
+          <span *ngIf="username.errors?.required">Email is required</span>
+          <span *ngIf="username.errors?.email">Email is invalid</span>
+        </div>  
+      
       <ion-item>
         <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
       </ion-item>
