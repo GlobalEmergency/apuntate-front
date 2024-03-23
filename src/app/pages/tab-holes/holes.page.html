@@ -1,0 +1,34 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span>Tab 2</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="content">
+  <mat-tab-group [(selectedIndex)]="calendar.mode">
+    <mat-tab label="Month" value="month"></mat-tab>
+    <mat-tab label="Week" value="week"></mat-tab>
+    <mat-tab label="Day" value="day"></mat-tab>
+  </mat-tab-group>
+
+  <div class="row">
+    <div class="col-2">
+      <button mat-button (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+
+    <div class="col-8 text-center">
+      <h2>{{ viewTitle }}</h2>
+    </div>
+
+    <div class="col-2">
+      <button mat-button (click)="next()">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Aquí puedes colocar tu componente de calendario -->
+
+</div>

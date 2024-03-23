@@ -1,0 +1,19 @@
+<mat-toolbar>
+  <h1>
+    {{ "Alerts" }}
+  </h1>
+</mat-toolbar>
+
+<div class="content">
+  <mat-card *ngFor="let alert of alerts">
+    <mat-card-header>
+      <mat-icon>pin</mat-icon>
+      <mat-card-title>{{ alert.title }}</mat-card-title>
+      <button mat-button *ngIf="alert.expandable === true">View</button>
+    </mat-card-header>
+
+    <mat-card-content>
+      {{ alert.resume }}
+    </mat-card-content>
+  </mat-card>
+</div>
