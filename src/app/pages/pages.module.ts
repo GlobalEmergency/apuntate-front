@@ -9,6 +9,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { TablerIconsModule } from 'angular-tabler-icons';
 import * as TablerIcons from 'angular-tabler-icons/icons';
 import { AppDashboardComponent } from './dashboard/dashboard.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [AppDashboardComponent],
@@ -19,7 +20,8 @@ import { AppDashboardComponent } from './dashboard/dashboard.component';
     NgApexchartsModule,
     RouterModule.forChild(PagesRoutes),
     TablerIconsModule.pick(TablerIcons),
+    FullCalendarModule
   ],
   exports: [TablerIconsModule],
 })
-export class PagesModule {}
+export class PagesModule { }

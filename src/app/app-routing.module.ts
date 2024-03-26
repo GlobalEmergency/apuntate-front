@@ -17,7 +17,7 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'dashboard',
+        path: '',
         loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule),
         canLoad: [AuthGuard] // Check if we should show the introduction or fo
       },
