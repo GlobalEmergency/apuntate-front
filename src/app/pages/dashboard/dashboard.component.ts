@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import {ApiService} from "../../../services/api.service";
 
 export interface PeriodicElement {
   name: string;
@@ -28,6 +29,12 @@ export class DashboardComponent {
   displayedColumnsTable: string[] = ['position', 'name', 'date'];
   dataSourceTable = TABLE_DATA;
 
-  constructor() {
+  services: Object;
+  constructor(
+    private api:ApiService
+  ) {
+    this.api.getCalendar().subscribe(data => {
+      this.services = data
+    })
   }
 }

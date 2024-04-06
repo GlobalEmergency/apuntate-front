@@ -21,50 +21,37 @@ export class JwtInterceptor implements HttpInterceptor {
 
   // Intercept every HTTP call
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    // Check if we need additional token logic or not
     if (!this.isInBlockedList(request.url)) {
       return next.handle(request);
-    } else {
-      return next.handle(this.addToken(request)).pipe(
-        catchError(err => {
-          if (err instanceof HttpErrorResponse) {
-            switch (err.status) {
-              case 400:
-                return this.handle400Error(err);
-              case 401:
-                return this.handle401Error(request, next);
-              default:
-                return throwError(err);
-            }
-          } else {
-            return throwError(err);
-          }
-        })
-      );
     }
+
+    return next.handle(this.addToken(request)).pipe(
+      catchError(err => {
+        if (err instanceof HttpErrorResponse) {
+          switch (err.status) {
+            case 400:
+              return this.handle400Error(err);
+            case 401:
+              return this.handle401Error(request, next);
+            default:
+              return throwError(err);
+          }
+        } else {
+          return throwError(err);
+        }
+      })
+    );
   }
 
   // Filter out URLs where you don't want to add the token!
   private isInBlockedList(url: string): boolean {
-    // Example: Filter out our login and logout API call
-    if (url.startsWith(environment.api_url) && !url.startsWith(environment.api_url + '/auth')
-      // url.match("/^${environment.api_url}(.*)/gm") && !url.match("/^${environment.api_url}\\/auth(.*)/gm")
-      // url === `${environment.api_url}/auth/login` ||
-      // url === `${environment.api_url}/auth/refresh` ||
-      // url === `${environment.api_url}/auth` ||
-      // url === `${environment.api_url}/auth/logout`
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    return url.startsWith(environment.api_url) && !url.startsWith(environment.api_url + '/auth');
   }
 
   // Add our current access token from the service if present
   private addToken(req: HttpRequest<any>) {
-    // debugger;
-    console.log("Token", this.authenticationService.currentAccessToken);
+    // // debugger;
+    // console.log("Token", this.authenticationService.currentAccessToken);
     if (this.authenticationService.currentAccessToken) {
       return req.clone({
         headers: new HttpHeaders({
@@ -93,39 +80,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
   // Indicates our access token is invalid, try to load a new one
   private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    // Check if another call is already using the refresh logic
-    if (!this.isRefreshingToken) {
-
-      // Set to null so other requests will wait
-      // until we got a new token!
-      this.tokenSubject.next(null);
-      this.isRefreshingToken = true;
-      this.authenticationService.currentAccessToken = null;
-
-      // First, get a new access token
-      return this.authenticationService.getNewAccessToken()?.pipe(
-        switchMap((tokens: any) => {
-          if (tokens) {
-            // Store the new token
-            this.authenticationService.storeAccessToken(tokens.token, tokens.refresh_token);
-            // Use the subject so other calls can continue with the new token
-            this.tokenSubject.next(tokens.token);
-
-            // Perform the initial request again with the new token
-            return next.handle(this.addToken(request));
-
-          } else {
-            // No new token or other problem occurred
-            return of(null);
-          }
-        }),
-        finalize(() => {
-          // Unblock the token reload logic when everything is done
-          this.isRefreshingToken = false;
-        })
-      ) ?? of(null);
-    } else {
-      // "Queue" other calls while we load a new token
+    if (this.isRefreshingToken) {
       return this.tokenSubject.pipe(
         filter(token => token !== null),
         take(1),
@@ -135,5 +90,34 @@ export class JwtInterceptor implements HttpInterceptor {
         })
       );
     }
+
+    // Set to null so other requests will wait
+    // until we got a new token!
+    this.tokenSubject.next(null);
+    this.isRefreshingToken = true;
+    this.authenticationService.currentAccessToken = null;
+
+    // First, get a new access token
+    return this.authenticationService.getNewAccessToken()?.pipe(
+      switchMap((tokens: any) => {
+        if (tokens) {
+          // Store the new token
+          this.authenticationService.storeAccessToken(tokens.token, tokens.refresh_token);
+          // Use the subject so other calls can continue with the new token
+          this.tokenSubject.next(tokens.token);
+
+          // Perform the initial request again with the new token
+          return next.handle(this.addToken(request));
+
+        } else {
+          // No new token or other problem occurred
+          return of(null);
+        }
+      }),
+      finalize(() => {
+        // Unblock the token reload logic when everything is done
+        this.isRefreshingToken = false;
+      })
+    ) ?? of(null);
   }
 }
