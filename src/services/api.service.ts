@@ -40,4 +40,8 @@ export class ApiService {
   getServiceDetails(serviceId: number) {
     return this.http.get(`${this.url}/services/` + serviceId);
   }
+
+  getCalendar() {
+    return this.http.get(`${this.url}/services/calendar`)
+  }
 }

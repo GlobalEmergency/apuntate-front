@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'GlobalEmergency | Apuntate';
+  title = 'GlobalEmergency | Apúntate';
   constructor() {
   }
 }
