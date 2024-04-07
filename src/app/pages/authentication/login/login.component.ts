@@ -20,7 +20,9 @@ export class LoginPage implements OnInit {
     @Inject(AuthenticationService) private authService: AuthenticationService,
     private router: Router,
     private alertService: AlertService
-  ) { }
+  ) {
+    console.log('LoginPage.constructor()');
+  }
 
   ngOnInit(): void {
     // throw new Error('Method not implemented.');

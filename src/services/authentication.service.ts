@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import {CanLoadFn, CanMatchFn, Router, UrlMatcher, UrlSegment} from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
@@ -18,6 +18,10 @@ export class AuthenticationService {
 
   constructor(@Inject(HttpClient) private http: HttpClient, private router: Router) {
     this.loadToken();
+  }
+
+  public checkAuthentication(): boolean {
+    return this.currentAccessToken !== null;
   }
 
   loadToken() {
@@ -47,13 +51,14 @@ export class AuthenticationService {
   }
 
   logout() {
+    this.currentAccessToken = null;
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
+    this.isAuthenticated.next(false);
+    this.router.navigateByUrl('/', { replaceUrl: true });
+
     return this.http.post(`${this.url}/auth/logout`, {}).pipe(
       switchMap(_ => {
-        this.currentAccessToken = null;
-        localStorage.removeItem(ACCESS_TOKEN_KEY);
-        localStorage.removeItem(REFRESH_TOKEN_KEY);
-        this.isAuthenticated.next(false);
-        this.router.navigateByUrl('/', { replaceUrl: true });
         return of(true);
       })
     ).subscribe();

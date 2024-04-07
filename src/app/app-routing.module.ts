@@ -1,15 +1,47 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {inject, NgModule} from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  CanMatchFn,
+  Route, Router,
+  RouterModule, RouterStateSnapshot,
+  Routes,
+  UrlSegment
+} from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
-import { AuthGuard } from './guards/auth.guard';
-// import { IntroGuard } from './guards/intro.guard';
-// import { AutoLoginGuard } from './guards/auto-login.guard';
+import { AuthenticationService } from '../services/authentication.service';
+import {ErrorComponent} from "./pages/error/error.component";
+const userLogged: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  var ret = inject(AuthenticationService).checkAuthentication();
+  console.log('userLogged', ret);
+  if(ret) return true;
+  inject(Router).navigate(['/login']);
+  return false;
+};
+const userLogoff: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  var ret = inject(AuthenticationService).checkAuthentication();
+  console.log('userLogoff', ret);
+  if(ret) inject(Router).navigate(['/']);
+  return !ret;
+};
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
     component: FullComponent,
+    canActivateChild: [userLogged],
     children: [
       {
         path: '',
@@ -19,7 +51,6 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule),
-        canLoad: [AuthGuard] // Check if we should show the introduction or fo
       },
       // {
       //   path: 'ui-components',
@@ -38,6 +69,8 @@ const routes: Routes = [
   {
     path: '',
     component: BlankComponent,
+    canActivateChild: [userLogoff],
+    // canActivateChild: [!userLogged],
     children: [
       {
         path: '',
@@ -49,11 +82,20 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: '**',
+    // redirectTo: '/notfound',
+    component: ErrorComponent,
+  },
+  {
+    path: 'notfound',
+    component: ErrorComponent,
+  },
 ];
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule { }

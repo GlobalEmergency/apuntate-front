@@ -49,10 +49,10 @@ import { JwtInterceptor } from '../interceptor/jwt.interceptor';
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
   providers: [
-    // provideClientHydration(),
-    // provideHttpClient(withFetch()),
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    //  provideAnimationsAsync(),
   ],
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+  }
+}
