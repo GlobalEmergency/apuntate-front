@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -24,6 +24,8 @@ import { HeaderComponent } from './layouts/full/header/header.component';
 import { BrandingComponent } from './layouts/full/sidebar/branding.component';
 import { AppNavItemComponent } from './layouts/full/sidebar/nav-item/nav-item.component';
 import { JwtInterceptor } from '../interceptor/jwt.interceptor';
+import {ServicesInterface} from "../domain/ServicesInterface";
+import {ApiService} from "../services/api.service";
 // import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({

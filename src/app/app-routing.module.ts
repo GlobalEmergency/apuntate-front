@@ -17,7 +17,6 @@ const userLogged: CanActivateFn = (
   state: RouterStateSnapshot,
 ) => {
   var ret = inject(AuthenticationService).checkAuthentication();
-  console.log('userLogged', ret);
   if(ret) return true;
   inject(Router).navigate(['/login']);
   return false;
@@ -27,7 +26,6 @@ const userLogoff: CanActivateFn = (
   state: RouterStateSnapshot,
 ) => {
   var ret = inject(AuthenticationService).checkAuthentication();
-  console.log('userLogoff', ret);
   if(ret) inject(Router).navigate(['/']);
   return !ret;
 };
@@ -95,7 +93,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule],
 })
 export class AppRoutingModule { }

@@ -1,36 +1,33 @@
-import {Component, OnInit, ViewEncapsulation} from "@angular/core";
-import { CalendarOptions } from "@fullcalendar/core";
+import {Component, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
+import {CalendarApi, CalendarOptions} from "@fullcalendar/core";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {ApiService} from "../../../services/api.service";
-import {Observable} from "rxjs";
+import {FullCalendarComponent} from "@fullcalendar/angular";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './calendar.component.html',
     encapsulation: ViewEncapsulation.None,
 })
-export class CalendarComponent implements OnInit{
+export class CalendarComponent{
+  // @ViewChild('calendar') calendarComponent: FullCalendarComponent;
+  // calendarApi: CalendarApi;
     calendarOptions: CalendarOptions = {
         plugins: [dayGridPlugin],
         initialView: 'dayGridMonth',
-        weekends: false,
-        events: [
-            { title: 'Meeting', start: new Date() }
-        ]
+        firstDay: 1,
+        weekends: true,
+        events: (fetchInfo, successCallback, failureCallback) => {
+          this.apiService.getCalendar(fetchInfo.start, fetchInfo.end).subscribe({
+              next: events => successCallback(events),
+              error: error => failureCallback(error)
+          });
+        }
     };
-    events: Observable<Object>;
 
   constructor(
     private apiService: ApiService
   ) {
-
   }
-  async ngOnInit() {
-    console.log('CalendarComponent');
-    this.events = await this.apiService.getCalendar();
-  }
-
-
-
 
 }
