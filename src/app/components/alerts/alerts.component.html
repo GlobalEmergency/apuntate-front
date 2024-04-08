@@ -1,0 +1,29 @@
+<style>
+  @keyframes blink {
+    0% { border-color: red; }
+    50% { border-color: transparent; }
+    100% { border-color: red; }
+  }
+
+  .blink {
+    animation: blink 1s linear infinite;
+    border: 1px solid red;
+  }
+  .mat-mdc-card { margin:1em 2em }
+</style>
+<h1>Alerts</h1>
+<ng-container>
+  <mat-card *ngFor="let alert of alerts" [ngClass]="{'blink': alert.show}">
+    <mat-card-title>{{alert.title}}</mat-card-title>
+    <mat-card-content style="display: flex; justify-content: space-between;">
+      <div>
+        {{alert.resume}}
+      </div>
+      <div class="end">
+        <button mat-icon-button (click)="discardAlert(alert)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

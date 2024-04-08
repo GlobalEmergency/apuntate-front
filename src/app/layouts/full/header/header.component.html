@@ -9,12 +9,13 @@
   <!-- Notification Dropdown -->
   <!-- --------------------------------------------------------------- -->
 
-  <button mat-icon-button aria-label="Notifications">
+  <button mat-icon-button aria-label="Notifications" (click)="showAlerts()">
     <i-tabler
       class="d-flex"
       name="bell"
-      matBadge="1"
-      matBadgeColor="primary"
+      matBadgeHidden="{{ alertsActive === 0 }}"
+      matBadge="{{ alertsActive }}"
+      matBadgeColor="warn"
     ></i-tabler>
   </button>
 
