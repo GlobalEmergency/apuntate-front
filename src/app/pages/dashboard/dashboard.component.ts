@@ -2,6 +2,7 @@ import {Component, ViewEncapsulation, ViewChild, Injectable, Inject} from '@angu
 import {ApiService} from "../../../services/api.service";
 import {ServicesInterface} from "../../../domain/ServicesInterface";
 import {Service} from "../../../domain/Service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,10 +15,15 @@ export class DashboardComponent {
   services: Service[];
 
   constructor(
-    @Inject(ApiService) private serviceRepository: ServicesInterface
+    @Inject(ApiService) private serviceRepository: ServicesInterface,
+    private router: Router,
   ) {
     this.serviceRepository.getNextEvents().subscribe(data => {
       this.services = data
     })
+  }
+
+  showService(service: Service) {
+    this.router.navigate(['/service', service.id]);
   }
 }

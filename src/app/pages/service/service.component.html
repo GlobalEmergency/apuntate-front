@@ -1,0 +1,84 @@
+<mat-spinner *ngIf="service == null"></mat-spinner>
+<div *ngIf="service != null">
+  <mat-toolbar color="primary">
+    {{ service.name }}
+  </mat-toolbar>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        {{ service.datePlace | date: 'dd/MM/yyyy' }} - Hora Inicio: {{ service.dateStart | date: 'HH:mm' }} - Hora Final: {{ service.dateEnd | date: 'HH:mm' }}
+      </mat-card-title>
+<!--      <mat-card-subtitle>-->
+<!--        Fecha (Miércoles) 17/04/2024 - Hora Inicio: 16:00 - Hora Final: 21:00-->
+<!--      </mat-card-subtitle>-->
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-grid-list [cols]="breakpoint" rowHeight="2:1" (window:resize)="onResize($event)">
+        <mat-grid-tile>
+          <span><b>Tipo/Categoría:</b><br />{{ service.status }}</span>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <span><b>Prioridad:</b><br /> Media</span>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <span><b>Zona de Servicio:</b><br /> Madrid</span>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <span><b>Estado:</b><br /> {{ service.status }}</span>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-grid-list [cols]="breakpoint" rowHeight="2:1" (window:resize)="onResize($event)">
+        <mat-grid-tile>
+          <span><b>Solicitud:</b><br /> Preventivos</span>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <span><b>Jefe evento:</b><br /> Pepe pepe pepe</span>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <span><b>Jefe servicio:</b><br /> Pepe pepe pepe</span>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Descripción
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      {{ service.description }}
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Personal Asignado ({{service.gaps.length}} / 10)
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="personnel-grid">
+        <div class="person-card" *ngFor="let person of service.gaps">
+          <mat-chip-list>
+            <mat-chip>{{ person }}</mat-chip>
+          </mat-chip-list>
+          <img mat-card-avatar src="{{ person }}" alt="Photo of {{ person }}">
+          <h3>{{ person }}</h3>
+          <p>{{ person }}</p>
+          <div class="icons">
+  <!--            <mat-icon *ngFor="let icon of person.icons">{{ icon }}</mat-icon>-->
+          </div>
+        </div>
+        <button mat-raised-button color="primary" >Añadir Personal</button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+</div>

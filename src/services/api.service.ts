@@ -48,6 +48,10 @@ export class ApiService implements ServicesInterface, AlertRepositoryInterface{
     return this.http.get<Service[]>(`${this.url}/services/nexts`);
   }
 
+  getService(id: string): Observable<Service> {
+    return this.http.get<Service>(`${this.url}/services/${id}`);
+  }
+
   getAlerts() {
     return this.http.get<Alert[]>(`${this.url}/alerts`);
   }

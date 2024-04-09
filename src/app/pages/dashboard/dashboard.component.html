@@ -29,7 +29,7 @@
 
           <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef> Title </th>
-            <td mat-cell *matCellDef="let service"> {{service.name}} </td>
+            <td mat-cell *matCellDef="let service" (click)="showService(service)"> {{service.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="users">

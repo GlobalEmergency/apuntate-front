@@ -26,6 +26,8 @@ import { AppNavItemComponent } from './layouts/full/sidebar/nav-item/nav-item.co
 import { JwtInterceptor } from '../interceptor/jwt.interceptor';
 import {ServicesInterface} from "../domain/ServicesInterface";
 import {ApiService} from "../services/api.service";
+import {ServiceComponent} from "./pages/service/service.component";
+import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 // import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
@@ -37,6 +39,7 @@ import {ApiService} from "../services/api.service";
     HeaderComponent,
     BrandingComponent,
     AppNavItemComponent,
+    ServiceComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +50,7 @@ import {ApiService} from "../services/api.service";
     ReactiveFormsModule,
     MaterialModule,
     TablerIconsModule.pick(TablerIcons),
+    MatLegacyChipsModule,
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
