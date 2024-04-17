@@ -19,7 +19,12 @@ export class CalendarComponent{
         weekends: true,
         events: (fetchInfo, successCallback, failureCallback) => {
           this.apiService.getCalendar(fetchInfo.start, fetchInfo.end).subscribe({
-              next: events => successCallback(events),
+              next: events => {
+                events.map(event => {
+                  event.url = '/service/' + event.id;
+                })
+                successCallback(events)
+              },
               error: error => failureCallback(error)
           });
         }

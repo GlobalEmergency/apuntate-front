@@ -17,6 +17,12 @@ export const navItems: NavItem[] = [
     iconName: 'calendar',
     route: '/calendar',
   },
+  {
+    displayName: 'Nuevo',
+    iconName: 'plus',
+    route: '/service/add',
+    admin: true,
+  }
   // {
   //   displayName: 'Chips',
   //   iconName: 'poker-chip',

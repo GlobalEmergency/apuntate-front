@@ -25,5 +25,5 @@ export const PagesRoutes: Routes = [
     data: {
       title: 'Service',
     },
-  }
+  },
 ];

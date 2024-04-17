@@ -1,10 +1,11 @@
 import {Component, Inject} from "@angular/core";
 import {Service} from "../../../domain/Service";
 import {Observable} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ApiService} from "../../../services/api.service";
 import {switchMap} from "rxjs/operators";
 import {ServicesInterface} from "../../../domain/ServicesInterface";
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-service',
@@ -19,6 +20,8 @@ export class ServiceComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthenticationService,
     @Inject(ApiService) private servicesRepository: ServicesInterface
   ) {
   }
@@ -31,9 +34,16 @@ export class ServiceComponent {
     });
   }
 
-  onResize(event: any) {
-    this.breakpoint = Math.round(event.target.innerWidth/200);
+  isAdmin(): boolean {
+    return this.authService.checkAuthentication('ROLE_ADMIN');
   }
 
+  edit() {
+    this.router.navigate(['/admin/service/', this.service.id]);
+  }
+
+  remove(){
+
+  }
 
 }

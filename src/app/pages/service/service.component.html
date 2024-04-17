@@ -1,7 +1,8 @@
 <mat-spinner *ngIf="service == null"></mat-spinner>
 <div *ngIf="service != null">
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" style="display: flex; justify-content: space-between; align-items: center;">
     {{ service.name }}
+    <div class="status-circle" [ngClass]="service.status" matTooltip="{{service.status}}"></div>
   </mat-toolbar>
 
   <mat-card>
@@ -15,32 +16,29 @@
     </mat-card-header>
 
     <mat-card-content>
-      <mat-grid-list [cols]="breakpoint" rowHeight="2:1" (window:resize)="onResize($event)">
-        <mat-grid-tile>
+      <div class="flex-container" style="margin-top:2em">
+        <div class="flex-item">
           <span><b>Tipo/Categoría:</b><br />{{ service.status }}</span>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+        <div class="flex-item">
           <span><b>Prioridad:</b><br /> Media</span>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+        <div class="flex-item">
           <span><b>Zona de Servicio:</b><br /> Madrid</span>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <span><b>Estado:</b><br /> {{ service.status }}</span>
-        </mat-grid-tile>
-      </mat-grid-list>
+        </div>
+      </div>
 
-      <mat-grid-list [cols]="breakpoint" rowHeight="2:1" (window:resize)="onResize($event)">
-        <mat-grid-tile>
+      <div class="flex-container" style="margin-top:1em">
+        <div class="flex-item">
           <span><b>Solicitud:</b><br /> Preventivos</span>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+        <div class="flex-item">
           <span><b>Jefe evento:</b><br /> Pepe pepe pepe</span>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+        <div class="flex-item">
           <span><b>Jefe servicio:</b><br /> Pepe pepe pepe</span>
-        </mat-grid-tile>
-      </mat-grid-list>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 
@@ -80,5 +78,9 @@
     </mat-expansion-panel>
   </mat-accordion>
 
+  <div class="actions">
+    <button *ngIf="isAdmin()" style="background-color: burlywood; color:black" mat-raised-button (click)="edit()">Editar</button>
+    <button *ngIf="isAdmin()" style="background-color: darkred; color:whitesmoke" mat-raised-button (click)="remove()">Eliminar</button>
+  </div>
 
 </div>

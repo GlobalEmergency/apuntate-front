@@ -1,0 +1,56 @@
+<h1>Add Service</h1>
+
+<form (ngSubmit)="sendForm()" method="POST" [formGroup]="serviceForm">
+  <mat-form-field appearance="fill" [style.width.%]="100">
+    <mat-label>Title</mat-label>
+    <input matInput required
+           formControlName="name"
+    >
+    <mat-hint>Título del servicio</mat-hint>
+  </mat-form-field>
+
+  <div class="row">
+    <mat-form-field appearance="fill">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option *ngFor="let category of ServiceCategory | keyvalue" [value]="category.key">
+          {{ category.value }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Categoría del servicio</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Priority</mat-label>
+      <mat-select formControlName="priority">
+        <mat-option *ngFor="let priority of ServicePriority | keyvalue" [value]="priority.key">
+          {{ priority.value }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Prioridad del servicio</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of ServiceType | keyvalue" [value]="type.key">
+          {{ type.value }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Tipo de servicio</mat-hint>
+    </mat-form-field>
+
+  </div>
+
+
+  <mat-form-field appearance="fill" [style.width.%]="100">
+    <mat-label>Description</mat-label>
+    <textarea matInput
+              formControlName="description"
+    ></textarea>
+    <mat-hint>Descripción del servicio</mat-hint>
+  </mat-form-field>
+
+  <button type="submit" color="primary" mat-stroked-button >Guardar</button>
+
+</form>

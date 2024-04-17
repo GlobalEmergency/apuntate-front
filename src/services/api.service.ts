@@ -59,4 +59,8 @@ export class ApiService implements ServicesInterface, AlertRepositoryInterface{
   discardAlert(alert: Alert): Observable<boolean> {
     return this.http.post<boolean>(`${this.url}/alerts/${alert.id}`,alert);
   }
+
+  addService(service: Service): Observable<void> {
+    return this.http.post<void>(`${this.url}/services`, service);
+  }
 }

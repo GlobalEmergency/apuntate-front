@@ -10,7 +10,7 @@
       : false,
   }"
   class="menu-list-item"
-  *ngIf="!item.navCap"
+  *ngIf="!item.navCap && (item.admin === undefined || !item.admin || (item.admin && isAdmin))"
 >
   <i-tabler
     class="routeIcon"

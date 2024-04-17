@@ -1,3 +1,36 @@
 .mat-accordion .mat-expansion-panel{
   margin-bottom: 25px;
 }
+.status-circle {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 10px;
+  &.draft{
+    background-color: #f0ad4e;
+  }
+  &.published{
+    background-color: #5cb85c;
+  }
+  &.archived{
+    background-color: #d9534f;
+  }
+}
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .flex-item {
+    flex: 1 1 auto;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  button {
+    margin-left: 10px;
+  }
+}

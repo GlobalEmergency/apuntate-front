@@ -29,6 +29,12 @@ const userLogoff: CanActivateFn = (
   if(ret) inject(Router).navigate(['/']);
   return !ret;
 };
+const userAdmin: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  return inject(AuthenticationService).checkAuthentication('ROLE_ADMIN');
+};
 
 const routes: Routes = [
   {
@@ -48,8 +54,14 @@ const routes: Routes = [
       },
       {
         path: '',
+        loadChildren: () => import('./pages/admin/admin.module').then((m) => m.AdminModule),
+        canActivateChild: [userAdmin],
+      },
+      {
+        path: '',
         loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule),
       },
+
     //   // {
     //   //   path: 'ui-components',
     //   //   loadChildren: () =>

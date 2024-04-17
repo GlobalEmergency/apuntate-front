@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {CanLoadFn, CanMatchFn, Router, UrlMatcher, UrlSegment} from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { jwtDecode } from "jwt-decode";
 
 const ACCESS_TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
@@ -14,13 +15,17 @@ const REFRESH_TOKEN_KEY = 'refresh_token';
 export class AuthenticationService {
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentAccessToken: string | null = null;
+  payload: any = null;
   url = environment.api_url;
 
   constructor(@Inject(HttpClient) private http: HttpClient, private router: Router) {
     this.loadToken();
   }
 
-  public checkAuthentication(): boolean {
+  public checkAuthentication(role:string|null = null): boolean {
+    if(this.currentAccessToken !== null && role !== null){
+      return !!this.payload.roles.includes(role);
+    }
     return this.currentAccessToken !== null;
   }
 
@@ -28,6 +33,7 @@ export class AuthenticationService {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
     if (token) {
       this.currentAccessToken = token;
+      this.payload = jwtDecode(token);
       this.isAuthenticated.next(true);
     } else {
       this.isAuthenticated.next(false);
