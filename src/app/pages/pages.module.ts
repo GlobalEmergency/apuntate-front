@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { PagesRoutes } from './pages.routing.module';
 import { MaterialModule } from '../material.module';
 import { FormsModule } from '@angular/forms';
-// import { NgApexchartsModule } from 'ng-apexcharts';
 // icons
 import { TablerIconsModule } from 'angular-tabler-icons';
 import * as TablerIcons from 'angular-tabler-icons/icons';
@@ -12,11 +11,13 @@ import * as TablerIcons from 'angular-tabler-icons/icons';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import {CalendarComponent} from "./calendar/calendar.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
+import {ServicestableComponent} from "../components/servicestable/servicestable.component";
 
 @NgModule({
   declarations: [
     CalendarComponent,
-    DashboardComponent
+    DashboardComponent,
+    ServicestableComponent,
   ],
   imports: [
     CommonModule,

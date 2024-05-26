@@ -28,6 +28,10 @@ import {ServicesInterface} from "../domain/ServicesInterface";
 import {ApiService} from "../services/api.service";
 import {ServiceComponent} from "./pages/service/service.component";
 import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
+import {ServicestableComponent} from "./components/servicestable/servicestable.component";
+import {MatTableModule} from "@angular/material/table";
+import {MatIconModule} from "@angular/material/icon";
+import {CommonModule} from "@angular/common";
 // import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
@@ -51,6 +55,9 @@ import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
     MaterialModule,
     TablerIconsModule.pick(TablerIcons),
     MatLegacyChipsModule,
+    MatTableModule,
+    MatIconModule,
+    CommonModule
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],

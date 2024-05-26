@@ -39,7 +39,10 @@ export class ServiceComponent {
   }
 
   edit() {
-    this.router.navigate(['/admin/service/', this.service.id]);
+    if(this.service == null){
+      return;
+    }
+    this.router.navigate(['/admin/service/', this.service.id]).then(r => true);
   }
 
   remove(){
