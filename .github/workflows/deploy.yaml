@@ -50,7 +50,7 @@ jobs:
       - name: configureAWSCredentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
-          role-to-assume: arn:aws:iam::240514672475:role/gha-${{ env.APP_NAME }}-${{ env.APP_ENV }}
+          role-to-assume: arn:aws:iam::960349283643:role/gha-${{ env.APP_NAME }}-${{ env.APP_ENV }}
           role-session-name: ECR-login
           aws-region: eu-west-3
 
