@@ -45,7 +45,8 @@ jobs:
           npm ci
           npm run build
         env:
-          APP_ENV: production
+          APP_ENV: ${{ env.APP_ENV }}
+          API_URL: ${{ vars.API_URL }}
 
       - name: configureAWSCredentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
