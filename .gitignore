@@ -45,3 +45,5 @@ Thumbs.db
 /www
 
 .terraform
+.vscode
+.idea
