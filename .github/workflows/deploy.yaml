@@ -52,7 +52,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::960349283643:role/gha-${{ env.APP_NAME }}-${{ env.APP_ENV }}
           role-session-name: ECR-login
-          aws-region: eu-west-3
+          aws-region: eu-west-1
 
       - name: Copy files to the S3 bucket
         run: |
