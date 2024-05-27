@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {CanLoadFn, CanMatchFn, Router, UrlMatcher, UrlSegment} from '@angular/router';
-import { switchMap, tap } from 'rxjs/operators';
+import {catchError, switchMap, tap} from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { jwtDecode } from "jwt-decode";
 
@@ -74,7 +74,21 @@ export class AuthenticationService {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
     if (refreshToken && refreshToken !== 'undefined') {
       console.log('refresh', refreshToken);
-      return this.http.post(`${this.url}/auth/refresh`, { refresh_token: refreshToken });
+      return this.http.post(`${this.url}/auth/refresh`, { refresh_token: refreshToken }).pipe(
+        catchError(err => {
+          console.log('refresh error', err);
+          this.logout();
+          return of(null);
+        }),
+      //   Verify if body code !== 401
+        tap(value => {
+          console.log("Response",value);
+          // if (value.code === 401) {
+          //   this.logout();
+          // }
+        })
+      )
+        ;
     } else {
       this.logout();
       return null;

@@ -1,0 +1,63 @@
+name: Build and Deploy to AWS S3
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "Environment to deploy"
+        default: "staging"
+        required: true
+        type: string
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy"
+        options:
+          - staging
+          - prod
+        required: true
+        type: choice
+
+env:
+  APP_ENV: ${{ inputs.environment }}
+  APP_NAME: apuntate-front
+
+jobs:
+  deployment:
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run build
+        env:
+          APP_ENV: production
+
+      - name: configureAWSCredentials
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          role-to-assume: arn:aws:iam::240514672475:role/gha-${{ env.APP_NAME }}-${{ env.APP_ENV }}
+          role-session-name: ECR-login
+          aws-region: eu-west-3
+
+      - name: Copy files to the S3 bucket
+        run: |
+          aws s3 sync dist/ s3://globalemergency-${{ env.APP_NAME }}-${{ env.APP_ENV }} --delete
+
+      - name: Invalidate Cloudfront cache in staging
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{vars.CLOUDFRONT_ID}} --paths "/*"

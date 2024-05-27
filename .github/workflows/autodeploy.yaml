@@ -1,0 +1,16 @@
+name: "Autodeploy main to prod"
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-ecs:
+    uses: GlobalEmergency/apuntate-front/.github/workflows/deploy.yaml@main
+    with:
+      environment: "prod"
+    secrets: inherit
