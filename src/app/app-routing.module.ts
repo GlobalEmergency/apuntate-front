@@ -12,6 +12,7 @@ import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
 import { AuthenticationService } from '../services/authentication.service';
 import {ErrorComponent} from "./pages/error/error.component";
+import {NotfoundComponent} from "./pages/error/notfound.component";
 const userLogged: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
@@ -95,7 +96,7 @@ const routes: Routes = [
   {
     path: '**',
     // redirectTo: '/notfound',
-    component: ErrorComponent,
+    component: NotfoundComponent,
   },
   {
     path: 'notfound',
